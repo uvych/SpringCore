@@ -1,20 +1,26 @@
 package com.gb.vtb.springcore;
 
-
-import com.gb.vtb.springcore.config.Config;
 import com.gb.vtb.springcore.config.PrepareDataApp;
-import com.gb.vtb.springcore.service.ProductService;
-import com.gb.vtb.springcore.service.UserService;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.webapp.WebAppContext;
+
+import java.net.URL;
+import java.security.ProtectionDomain;
 
 public class App {
-    public static void main(String[] args) {
-        PrepareDataApp.forcePrepareData();
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
-        UserService userService = context.getBean("userService", UserService.class);
-        ProductService productService = context.getBean("productService", ProductService.class);
+        public static void main(String[] args) throws Exception {
+            PrepareDataApp.forcePrepareData();
+            Server server = new Server(8080);
 
-        System.out.println(userService.getAllUsers());
-        System.out.println(productService.getAllProduct());
-    }
+            ProtectionDomain domain = App.class.getProtectionDomain();
+            URL location = domain.getCodeSource().getLocation();
+
+            WebAppContext webAppContext = new WebAppContext();
+            webAppContext.setContextPath("/app");
+            webAppContext.setWar(location.toExternalForm());
+
+            server.setHandler(webAppContext);
+            server.start();
+            server.join();
+        }
 }
