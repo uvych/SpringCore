@@ -13,7 +13,7 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    public void setProductService(UserService userService) {
+    public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
@@ -23,18 +23,18 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public String getAllProduct(Model model){
+    public String getAllUser(Model model){
         model.addAttribute("frontUser", userService.getAllUsers());
         return "all_user";
     }
 
     @PostMapping("/add")
-    public String addNewProduct(@ModelAttribute User user) {
+    public String addNewUser(@ModelAttribute User user) {
         userService.saveUser(user);
         return "redirect:/user/all";
     }
 
-    @GetMapping("/form")
+    @GetMapping("/add")
     public String getAddForm(){
         return "add_user_form";
     }
@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @GetMapping("/find")
-    public String getProductById(@RequestParam Long id, Model model) {
+    public String getUserById(@RequestParam Long id, Model model) {
         model.addAttribute("user", userService.getUserById(id));
         return "user_by_id";
     }
