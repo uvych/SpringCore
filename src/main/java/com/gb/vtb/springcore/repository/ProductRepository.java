@@ -10,9 +10,13 @@ import java.util.List;
 
 @Component
 public class ProductRepository {
-    @Autowired
+
     private SessionFactoryBean factory;
 
+    @Autowired
+    public void setFactory(SessionFactoryBean factory) {
+        this.factory = factory;
+    }
 
     public void save(Product product){
         Session session = factory.getSession();

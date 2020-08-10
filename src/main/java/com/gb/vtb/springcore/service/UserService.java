@@ -3,14 +3,18 @@ package com.gb.vtb.springcore.service;
 import com.gb.vtb.springcore.model.User;
 import com.gb.vtb.springcore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
 public class UserService {
-    @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public void saveUser(User user){
         userRepository.save(user);
